@@ -66,7 +66,9 @@ public class Restaurant {
 
     public int getSelectedItemPrice(List<Item> selectedItems) {
         int totalPrice = 0;
-
+        for(Item item: selectedItems){
+            totalPrice += item.getPrice();
+        }
         return totalPrice;
     }
 

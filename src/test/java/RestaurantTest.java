@@ -66,10 +66,34 @@ class RestaurantTest {
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     //<<<<<<<<<<<<<<Order Price>>>>>>>>>>>>>>>>>>>
+    public List<Item> initalizeGetSelectedItemTest(){
+        this.restaurant.addToMenu("Vegetable soup",100);
+        RestaurantService restaurantService = new RestaurantService();
+        List<Item> selectedItems = new ArrayList<>();
+        selectedItems.add(restaurantService.selectItems(this.restaurant,"Sweet corn soup"));
+        selectedItems.add(restaurantService.selectItems(this.restaurant,"Vegetable lasagne"));
+        return selectedItems;
+    }
+
+    // Positive Test Case
     @Test
     public void get_selected_item_price_should_return_sum_of_all_selected_items(){
-        List<Item> selectedItems = new ArrayList<>();
-        selectedItems.add(new Item("Some dish", 100));
-        assertEquals(0, restaurant.getSelectedItemPrice(selectedItems));
+        List<Item> selectedItem = this.initalizeGetSelectedItemTest();
+        int totalCost = this.restaurant.getSelectedItemPrice(selectedItem);
+        assertEquals(388, totalCost);
+    }
+
+    //Negative Test case
+    @Test
+    public void get_selected_item_price_should_not_return_sum_of_all_items_in_menu(){
+        List<Item> selectedItem = this.initalizeGetSelectedItemTest();
+        int totalCost = this.restaurant.getSelectedItemPrice(selectedItem);
+        List<Item> items = this.restaurant.getMenu();
+        int totalMenuPrice = 0;
+        for (Item item : items) {
+            totalMenuPrice += item.getPrice();
+        }
+        assertFalse(totalMenuPrice < totalCost);
+
     }
 }

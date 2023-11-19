@@ -29,4 +29,14 @@ public class RestaurantService {
     public List<Restaurant> getRestaurants() {
         return restaurants;
     }
+
+    public Item selectItems(Restaurant restaurant, String itemName){
+        Item item = null;
+        for(Item selectedItem: restaurant.getMenu()){
+            if(selectedItem.getName().equals(itemName)){
+                item = selectedItem;
+            }
+        }
+        return item;
+    }
 }
